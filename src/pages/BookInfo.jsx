@@ -19,15 +19,15 @@ const BookInfo = ({ books, addToCart, cart }) => {
 
   return (
     <div id="books__body">
-      <main id="books_main">
-        <div className="books__containter">
+      <main id="books__main">
+        <div className="books__container">
           <div className="row">
             <div className="book__selected--top">
               <Link to="/books" className="book__link">
                 <FontAwesomeIcon icon="arrow-left" />
               </Link>
-              <Link to="/books">
-                <h2 className="book_selected--title--top">Books</h2>
+              <Link to="/books" className="book__link">
+                <h2 className="book__selected--title--top">Books</h2>
               </Link>
             </div>
             <div className="book__selected">
@@ -71,18 +71,19 @@ const BookInfo = ({ books, addToCart, cart }) => {
             </div>
           </div>
         </div>
-
         <div className="books__container">
           <div className="row">
             <div className="book__selected--top">
               <h2 className="book__selected--title--top">Recommended Books</h2>
             </div>
-            {books
-              .filter((book) => book.rating === 5 && +book.id !== +id)
-              .slice(0, 4)
-              .map((book) => (
-                <Book book={book} key={book.id} />
-              ))}
+            <div className="books">
+              {books
+                .filter((book) => book.rating === 5 && +book.id !== +id)
+                .slice(0, 4)
+                .map((book) => (
+                  <Book book={book} key={book.id} />
+                ))}
+            </div>
           </div>
         </div>
       </main>

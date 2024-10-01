@@ -1,6 +1,8 @@
 import React from "react";
+import EmptyCart from "../assets/empty_cart.svg";
+import { Link } from "react-router-dom";
 
-const Cart = ({ cart, changeQuantity }) => {
+const Cart = ({ cart, changeQuantity, removeItem }) => {
   const total = () => {
     let price = 0;
     cart.forEach((item) => {
@@ -41,7 +43,12 @@ const Cart = ({ cart, changeQuantity }) => {
                           <span className="cart__book--price">
                             ${(book.salePrice || book.originalPrice).toFixed(2)}
                           </span>
-                          <button className="cart__book--remove">Remove</button>
+                          <button
+                            className="cart__book--remove"
+                            onClick={() => removeItem(book)}
+                          >
+                            Remove
+                          </button>
                         </div>
                       </div>
                       <div className="cart__quantity">
@@ -49,7 +56,7 @@ const Cart = ({ cart, changeQuantity }) => {
                           type="number"
                           min={0}
                           max={99}
-                          class="cart__input"
+                          className="cart__input"
                           value={book.quantity}
                           onChange={(event) =>
                             changeQuantity(book, event.target.value)
@@ -66,29 +73,40 @@ const Cart = ({ cart, changeQuantity }) => {
                   );
                 })}
               </div>
+              {cart.length === 0 && (
+                <div className="cart__empty">
+                  <img src={EmptyCart} alt="" className="cart__empty--img" />
+                  <h2>You don't have any books in your cart!</h2>
+                  <Link to="/books">
+                    <button className="btn">Browse books</button>
+                  </Link>
+                </div>
+              )}
             </div>
-            <div className="total">
-              <div className="total__item total__sub-total">
-                <span>Subtotal</span>
-                <span>${(total() * 0.9).toFixed(2)}</span>
+            {cart.length > 0 && (
+              <div className="total">
+                <div className="total__item total__sub-total">
+                  <span>Subtotal</span>
+                  <span>${(total() * 0.9).toFixed(2)}</span>
+                </div>
+                <div className="total__item total__tax">
+                  <span>Tax</span>
+                  <span>${(total() * 0.1).toFixed(2)}</span>
+                </div>
+                <div className="total__item total__price">
+                  <span>Total</span>
+                  <span>${total().toFixed(2)}</span>
+                </div>
+                <button
+                  className="btn btn__checkout no-cursor"
+                  onClick={() =>
+                    alert(`Haven't got around to implementing this yet :(`)
+                  }
+                >
+                  Proceed to checkout
+                </button>
               </div>
-              <div className="total__item total__tax">
-                <span>Tax</span>
-                <span>${(total() * 0.1).toFixed(2)}</span>
-              </div>
-              <div className="total__item total__price">
-                <span>Total</span>
-                <span>${total()}</span>
-              </div>
-              <button
-                className="btn btn__checkout no-cursor"
-                onClick={() =>
-                  alert(`Haven't got around to implementing this yet :(`)
-                }
-              >
-                Proceed to checkout
-              </button>
-            </div>
+            )}
           </div>
         </div>
       </main>
